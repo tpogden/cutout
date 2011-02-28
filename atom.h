@@ -73,13 +73,13 @@ int atom::set_element(string element_i) {element = element_i; return 0; }
 
 // Atom: Gets ---------------------------------------------------------
 
-// Get atom position vector
+// Returns the atom position vector
 Vector3f atom::get_pos() { return pos; }
 
-// Get atom element
+// Returns the atom element
 string atom::get_element() { return element; }
 
-// Get line output string for an XYZ file
+// Returns a line output string for an XYZ file
 string atom::get_xyz() {
 
     stringstrream xyz_ss;

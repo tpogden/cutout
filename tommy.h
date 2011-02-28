@@ -40,4 +40,14 @@ double rand(double max_i) {
 
 }
 
+// Conversion --------------------------------------------------------
+
+double to_double(string string_i) {
+
+    double double_o;
+    stringstream(string_i) >> double_o;
+    return double_o;
+
+}
+
 // Keep it Peel ------------------------------------------------------
