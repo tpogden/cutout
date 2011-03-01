@@ -31,14 +31,16 @@ class molecule {
 
     double get_distance_to_atom(atom *);
 
+    string get_xyz();
+
     bool contains_atom(atom *);
 
     // Actions -------------------------------------------------------
 
-    add_atom(atom *);
+    int add_atom(atom *);
 
-    add_bonded_atoms(atom * base_atom_i, int num_atoms_i, atom * atoms_i,
-    double bond_cutoff_i);
+    int add_bonded_atoms(atom * base_atom_i, int num_atoms_i,
+        atom * atoms_i, double bond_cutoff_i);
 
 }; //*/
 
@@ -66,7 +68,7 @@ int molecule::get_num_atoms() { return num_atoms; }
 atom * molecule::get_atom(int index_i) { return atoms[index_i]; }
 
 // Returns the shortest distance from the molecule to an atom
-molecule::get_distance_to_atom(atom * atom_i) {
+double molecule::get_distance_to_atom(atom * atom_i) {
 
     // Set the shortest distance to be the longest possible double
     double shortest_distance = numeric_limits<double>::max();
@@ -74,9 +76,19 @@ molecule::get_distance_to_atom(atom * atom_i) {
     // Loop through the atoms, if it's shorter use this distance
     for (int n = 0; n < num_atoms; n++)
         if (atom_i->get_distance_to(atoms[n]) < shortest_distance)
-            shortest_distance = atom_i->get_dinstance_to(atoms[n]);
+            shortest_distance = atom_i->get_distance_to(atoms[n]);
 
     return shortest_distance;
+
+}
+
+string molecule::get_xyz() {
+
+    stringstream xyz_ss;
+
+    for (int n = 0; n < num_atoms; n++)
+        xyz_ss << atoms[n]->get_xyz() << endl;
+    return xyz_ss.str();
 
 }
 
@@ -121,7 +133,7 @@ int molecule::add_atom(atom * atom_i) {
 
 }
 
-int nolecule::add_bonded_atoms(atom * base_atom_i, int num_atoms_i,
+int molecule::add_bonded_atoms(atom * base_atom_i, int num_atoms_i,
     atom * atoms_i, double bond_cutoff_i) {
 
     // Code to add bonded atoms here!

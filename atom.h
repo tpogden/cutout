@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <cmath>
 #include <Eigen/Core>
 
@@ -21,7 +22,7 @@ class atom {
 
     // Sets ----------------------------------------------------------
 
-    int set_pos(Vector3f, string);
+    int set_pos(Vector3f);
     int set_pos_rand(double);
 
     int set_element(string);
@@ -82,9 +83,18 @@ string atom::get_element() { return element; }
 // Returns a line output string for an XYZ file
 string atom::get_xyz() {
 
-    stringstrream xyz_ss;
+    stringstream xyz_ss;
     xyz_ss << element << tb << pos.transpose();
     return xyz_ss.str();
+
+}
+
+// Returns the vector displacement to anther atom
+Vector3f atom::get_vector_to(atom * atom_i) { return atom_i->pos - pos; }
+
+double atom::get_distance_to(atom * atom_i) { 
+
+    return get_vector_to(atom_i).norm();
 
 }
 
