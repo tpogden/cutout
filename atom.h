@@ -54,7 +54,7 @@ atom::atom(Vector3f pos_i, string element_i) {
 
 }
 
-// Atom: Sets ---------------------------------------------------------
+// Atom: Sets --------------------------------------------------------
 
 // Set atom position vector
 int atom::set_pos(Vector3f pos_i) { pos = pos_i; return 0; }
@@ -72,7 +72,7 @@ int atom::set_pos_rand(double size_i) {
 // Set atom element (e.g. H, Cl, Ne)
 int atom::set_element(string element_i) {element = element_i; return 0; }
 
-// Atom: Gets ---------------------------------------------------------
+// Atom: Gets --------------------------------------------------------
 
 // Returns the atom position vector
 Vector3f atom::get_pos() { return pos; }
@@ -98,8 +98,8 @@ double atom::get_distance_to(atom * atom_i) {
 
 }
 
-// Atom: Actions ------------------------------------------------------
+// Atom: Actions -----------------------------------------------------
 
 int atom::move(Vector3f displace_i) { pos = pos + displace_i; return 0; }
 
-// End Class: Atom ----------------------------------------------------
+// End Class: Atom ---------------------------------------------------

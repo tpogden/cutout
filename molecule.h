@@ -1,6 +1,5 @@
 #include <string>
 #include <cmath>
-#include <iostream> // Check if I can remove this after testing?
 #include <Eigen/Core>
 
 using namespace std;
