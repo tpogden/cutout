@@ -59,7 +59,7 @@ atom::atom(Vector3f pos_i, string element_i) {
 // Set atom position vector
 int atom::set_pos(Vector3f pos_i) { pos = pos_i; return 0; }
 
-// Set atom position randomly within 3D cube (0.0, size)
+// Set atom position randomly within cube (0.0, size)
 int atom::set_pos_rand(double size_i) {
 
     for (int d = 0; d < 3; d++)
