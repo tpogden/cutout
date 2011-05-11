@@ -11,12 +11,12 @@ int main(int argc, char* argv[]) {
     double cutout_radius = 5.0;
     double exo_cutout_radius = 0.0; // A first cutout of atoms before merge
     double max_bond = 1.5; 
-
+/*
     cout << "argc = " << argc << endl; 
     for(int i = 0; i < argc; i++) 
         cout << "argv[" << i << "] = " << argv[i] << endl; 
     cout << endl;
-
+*/
     // Iterate over argv[] to get the parameters stored inside.
     for (int i = 1; i < argc; i++) { 
             
@@ -43,15 +43,9 @@ int main(int argc, char* argv[]) {
 
 //    tic();
 
-    cout << "START CUTOUT" << lb;
+    cout << "Start Cutout" << lb;
 
     Ensemble ens_0(xyz_file_in);
-
-    cout << ens_0.get_info() << lb;
-///*
-    cout << cutout_radius << lb;
-
-    cout << max_bond << lb;
 
     cout << "Cutting out molecules within exo radius of "; 
     cout << cutout_radius + exo_cutout_radius << "Å from the first atom.";
@@ -65,8 +59,6 @@ int main(int argc, char* argv[]) {
     cout << max_bond << "Å" << lb;
         
     ens_0.merge_bonded(max_bond);
-
-    cout << ens_0.get_info() << lb;
 
     cout << "Cutting out molecules within radius of "; 
     cout << cutout_radius<< "Å from the first atom." << lb;

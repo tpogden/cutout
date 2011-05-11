@@ -144,10 +144,10 @@ Molecule Molecule::get_union(Molecule& mol_i) const {
 
 }
 
-double Molecule::get_distance_to(Atom& atom_i) /*const*/ {
+double Molecule::get_distance_to(Atom& atom_i) {
 
     double shortest_distance = numeric_limits<double>::max();
-    vector<Atom>::/*const_*/iterator iter;
+    vector<Atom>::iterator iter;
 
     for (iter = atoms.begin(); iter != atoms.end(); ++iter)
         if (atom_i.get_distance_to(*iter) < shortest_distance)

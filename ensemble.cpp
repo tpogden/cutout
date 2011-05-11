@@ -132,10 +132,10 @@ int Ensemble::remove(Molecule &mol_i) {
     else return 1;
 
 }
-
+/*//
 int Ensemble::merge(vector<Molecule>::iterator iter_1_i,
                     vector<Molecule>::iterator iter_2_i) {
-    // THIS ISN'T WORKING PROPERLY.
+    
     vector<Molecule>::iterator iter_1 = iter_1_i, iter_2 = iter_2_i; 
 
     Molecule merged_mol = iter_1->get_union(*iter_2);
@@ -147,29 +147,17 @@ int Ensemble::merge(vector<Molecule>::iterator iter_1_i,
 
     return 0;
 
-}
+} // */
 
 int Ensemble::merge(Molecule & mol_1_i, Molecule & mol_2_i) {
 
     Molecule mol_1(mol_1_i), mol_2(mol_2_i);
 
-//    cout << "Mol 1:" << endl << mol_1;
-//    cout << "Mol 2:" << endl << mol_2;
-
     Molecule merged_mol = mol_1.get_union(mol_2);    
-
-//    cout << "Mol 1:" << endl << mol_1;
-//    cout << "Mol 2:" << endl << mol_2;
-//    cout << "Merged Mol:" << endl << merged_mol;
 
     remove(mol_1);
 
-//    cout << "Mol 1:" << endl << mol_1;
-//    cout << "Mol 2:" << endl << mol_2;
-
     remove(mol_2);
-
-//    cout << "Ensemble after Mol 1 removed" << endl << get_info();
 
     add(merged_mol);
 
@@ -185,37 +173,19 @@ int Ensemble::merge_bonded(Molecule & mol_i, double max_bond_i) {
    
     vector<Molecule> molecules_to_delete;
     
-    cout << "MERGING. CUTOFF AT " << max_bond_i << endl;
-
-    cout << "Start Molecule: " << mol_i << endl;
-
     merged_molecule = mol_i; 
 
     for (iter = molecules.begin(); iter != molecules.end(); ++iter) {
 
-        cout << "Other Molecule: " << *iter; 
-
-        cout << "Distance: " << mol_i.get_distance_to(*iter) << endl;
-
         if (mol_i.get_distance_to(*iter) <= max_bond_i) {
 
-            cout << "merge them." << lb;
-
+            // Merge the molecules
             merged_molecule = merged_molecule.get_union(*iter);
-            
+           
+            // We're going to delete these later 
             molecules_to_delete.push_back(*iter);
             
-            /*
-            if (mol_i != *iter)
-                molecules_to_delete.push_back(*iter);
-*/
         } 
-
-        else {
-
-               cout << "don't merge them." << lb;
-
-        }
 
     }
 
@@ -232,73 +202,16 @@ int Ensemble::merge_bonded(Molecule & mol_i, double max_bond_i) {
 } 
 
 int Ensemble::merge_bonded(double max_bond_i) {
-    // THIS IS IN PROGRESS
 
     merge_bonded(molecules[0], max_bond_i);  
 
     // First merge is now at the back, so get that to check.
 
     Molecule first_merge = molecules.back();
-
-    cout << "first_merge is: " << first_merge;
-    
+ 
     while (molecules[0] != first_merge) 
         merge_bonded(molecules[0], max_bond_i);  
     
-    /* // OLD METHOD!
-    vector<Molecule>::iterator iter;
-
-    iter = molecules.begin();
-    bool merge_happened;
-    int num_molecules = get_num_molecules();
-    
-    merge_happened = true; // so loop starts    
-    while ((iter != molecules.end())) {
-
-        cout << "MERGING MOL: " << *iter;
-        merge_bonded(*iter, max_bond_i);
-
-        if (num_molecules != get_num_molecules()) {
-
-            cout << "MERGE HAPPENED" << lb;
-
-            cout << "NEW ENSEMBLE: " << endl << get_info() << endl;
-
-            merge_happened = true;
-            //merge_happened
-          
-            
-
-        }
-
-        else {
-
-            cout << "NO MERGE" << endl;
-
-            merge_happened = false;
-            // No merge this time 
-            
-            // In case merging a molecule can make this one the end..
-            // CAN THIS HAPPEN?
-            if (iter != molecules.end())
-                iter++;
-
-            // So now we try the next molecule...
-
-        }        
-
-        num_molecules = get_num_molecules(); 
-
-    } */// while
-/*
-    for (iter = molecules.begin(); iter != molecules.end(); iter++) {
-
-            cout << "Merging " << endl << *iter << endl;
-            merge_bonded(*iter, max_bond_i);
-
-    }
-*/
-
     return 0;
 
 }
@@ -384,8 +297,6 @@ Ensemble Ensemble::get_cutout(Atom & atom_i, double radius_i) {
     cout << "Cutout from atom " << endl << atom_i << lb;
 
     for (iter=molecules.begin(); iter != molecules.end(); ++iter) {
-        cout << "Distance to molecule " << endl << *iter; 
-        cout << "is " << iter->get_distance_to(atom_i) << lb;
 
         if (iter->get_distance_to(atom_i) < radius_i)
             cutout_ensemble.add(*iter);

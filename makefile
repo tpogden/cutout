@@ -19,4 +19,4 @@ atom.o: atom.cpp
 	g++ $(CFLAGS) $(IFLAGS) atom.cpp
 
 clean:
-	rm -rf *o test_*
+	rm -rf *o test_* cutout
