@@ -1,105 +1,72 @@
-#include <string>
-#include <sstream>
-#include <cmath>
+#ifndef ATOM_H
+#define ATOM_H
+
 #include <Eigen/Core>
+
+#include "ogden.h"
 
 using namespace std;
 using namespace Eigen;
 
+// Atom Id Iterator --------------------------------------------------
+
+static int atom_id_iterator = 0;
+int get_next_atom_id();
+
 // Class: Atom -------------------------------------------------------
 
-class atom {
+class Atom {
 
   private:
     
-    Vector3f pos;
-    string element;
+    int         id;
+    string      element;
+    Vector3f    pos;
+    Vector3f    vel;
 
   public:
 
-    atom();
-    atom(Vector3f, string);
+    // Constructors & Destructors ------------------------------------
 
-    // Sets ----------------------------------------------------------
+    Atom(); 
+    Atom(int, string, Vector3f);
+    Atom(int, string);
 
-    int set_pos(Vector3f);
-    int set_pos_rand(double);
+    // Operators -----------------------------------------------------
 
-    int set_element(string);
+    bool operator==(Atom const&) const; 
+    bool operator!=(Atom const&) const;
 
-    // Gets ----------------------------------------------------------
+    bool operator<(Atom const&) const;
 
-    Vector3f get_pos();
+    friend ostream& operator<< (ostream &, Atom &);
+    
+    // Active Functions ----------------------------------------------
 
-    string get_element();
+    int init(int &, string &, Vector3f &);
+    int init(int &, string &);
 
-    string get_xyz();
+    int set_id(int &);
+    int set_element(string &);
+    int set_pos(Vector3f &);
+    int set_vel(Vector3f &);
+    int set_xyz(string &);
 
-    Vector3f get_vector_to(atom *);
-    double get_distance_to(atom *);
+    int move(Vector3f &);
 
-    // Actions -------------------------------------------------------  
+    // Passive Functions ---------------------------------------------
 
-    int move(Vector3f);
+    int get_id() const;
+    string get_element() const;
+    Vector3f get_pos() const;
+    Vector3f get_vel() const;
 
-}; //*/
+    string get_xyz() const;
+    string get_info() const;
 
-// Constructor. X atom stationary at origin
-atom::atom() { pos << 0.0, 0.0, 0.0; element = "X"; }
+    Vector3f get_vector_to(Atom &) const;
+    double get_distance_to(Atom &) const;
 
-// Constructor. Takes position vector and element string
-atom::atom(Vector3f pos_i, string element_i) {
+};
 
-    set_pos(pos_i); set_element(element_i);
-
-}
-
-// Atom: Sets --------------------------------------------------------
-
-// Set atom position vector
-int atom::set_pos(Vector3f pos_i) { pos = pos_i; return 0; }
-
-// Set atom position randomly within cube (0.0, size)
-int atom::set_pos_rand(double size_i) {
-
-    for (int d = 0; d < 3; d++)
-        pos[d] = rand(size_i);
-
-    return 0;
-
-}
-
-// Set atom element (e.g. H, Cl, Ne)
-int atom::set_element(string element_i) {element = element_i; return 0; }
-
-// Atom: Gets --------------------------------------------------------
-
-// Returns the atom position vector
-Vector3f atom::get_pos() { return pos; }
-
-// Returns the atom element
-string atom::get_element() { return element; }
-
-// Returns a line output string for an XYZ file
-string atom::get_xyz() {
-
-    stringstream xyz_ss;
-    xyz_ss << element << tb << pos.transpose();
-    return xyz_ss.str();
-
-}
-
-// Returns the vector displacement to anther atom
-Vector3f atom::get_vector_to(atom * atom_i) { return atom_i->pos - pos; }
-
-double atom::get_distance_to(atom * atom_i) { 
-
-    return get_vector_to(atom_i).norm();
-
-}
-
-// Atom: Actions -----------------------------------------------------
-
-int atom::move(Vector3f displace_i) { pos = pos + displace_i; return 0; }
-
-// End Class: Atom ---------------------------------------------------
+#endif
